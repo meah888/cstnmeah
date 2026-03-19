@@ -562,6 +562,130 @@ footer{
 footer strong{color:var(--sky)}
 
 /*──────────────────────────────────
+  SCIENTIFIC CALCULATOR
+──────────────────────────────────*/
+.calc-section{margin-bottom:5rem;animation:fadeUp .9s .8s ease both}
+.calc-outer{
+  display:flex;justify-content:center;
+}
+.calc{
+  background:rgba(10,20,40,.85);
+  border:1px solid rgba(56,189,248,.2);
+  border-radius:2rem;
+  padding:2rem;
+  width:100%;max-width:480px;
+  box-shadow:0 24px 80px rgba(0,0,0,.5),0 0 60px rgba(56,189,248,.07);
+  backdrop-filter:blur(20px);
+}
+
+/* display */
+.calc-display{
+  background:rgba(5,12,28,.8);
+  border:1px solid rgba(56,189,248,.15);
+  border-radius:1.2rem;
+  padding:1.2rem 1.5rem;
+  margin-bottom:1.5rem;
+  min-height:90px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;overflow:hidden;
+}
+.calc-display::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,rgba(56,189,248,.5),transparent);
+}
+.calc-expr{
+  font-family:var(--ff-body);font-size:.8rem;color:rgba(56,189,248,.5);
+  min-height:1.2em;word-break:break-all;text-align:right;
+  letter-spacing:.04em;
+}
+.calc-result{
+  font-family:var(--ff-head);font-weight:700;
+  font-size:clamp(1.6rem,5vw,2.4rem);
+  color:#e2f0ff;text-align:right;
+  letter-spacing:-.02em;line-height:1.1;
+  word-break:break-all;
+  text-shadow:0 0 30px rgba(56,189,248,.4);
+  transition:font-size .2s;
+}
+.calc-result.small{font-size:1.4rem}
+
+/* mode tabs */
+.calc-mode{
+  display:flex;gap:.5rem;margin-bottom:1.2rem;
+}
+.mode-btn{
+  flex:1;padding:.4rem;border-radius:.6rem;border:1px solid rgba(56,189,248,.15);
+  background:transparent;color:rgba(186,230,253,.5);
+  font-family:var(--ff-body);font-size:.72rem;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;cursor:none;transition:all .2s;
+}
+.mode-btn.active{
+  background:rgba(56,189,248,.15);color:var(--sky);
+  border-color:rgba(56,189,248,.4);
+  box-shadow:0 0 12px rgba(56,189,248,.15);
+}
+
+/* button grid */
+.calc-grid{display:grid;gap:.55rem}
+.calc-grid.sci-grid{grid-template-columns:repeat(5,1fr)}
+.calc-grid.basic-grid{grid-template-columns:repeat(4,1fr)}
+
+.ckey{
+  border:none;border-radius:.85rem;
+  font-family:var(--ff-body);font-weight:600;font-size:.9rem;
+  cursor:none;transition:all .18s cubic-bezier(.22,1,.36,1);
+  padding:.85rem .5rem;position:relative;overflow:hidden;
+  letter-spacing:.01em;
+}
+.ckey::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,.1);opacity:0;transition:opacity .15s;border-radius:inherit;
+}
+.ckey:active::after{opacity:1}
+.ckey:active{transform:scale(.94)}
+
+/* key types */
+.ckey-num{background:rgba(20,40,80,.9);color:#e2f0ff;border:1px solid rgba(56,189,248,.1)}
+.ckey-num:hover{background:rgba(30,55,110,.9);border-color:rgba(56,189,248,.3);box-shadow:0 4px 16px rgba(0,0,0,.3);transform:translateY(-2px)}
+
+.ckey-op{background:rgba(14,100,180,.25);color:var(--sky2);border:1px solid rgba(56,189,248,.2)}
+.ckey-op:hover{background:rgba(14,100,180,.4);border-color:var(--sky);box-shadow:0 4px 20px rgba(56,189,248,.2);transform:translateY(-2px)}
+
+.ckey-fn{background:rgba(56,189,248,.09);color:var(--sky3);border:1px solid rgba(56,189,248,.15);font-size:.78rem}
+.ckey-fn:hover{background:rgba(56,189,248,.18);border-color:rgba(56,189,248,.4);transform:translateY(-2px)}
+
+.ckey-eq{
+  background:linear-gradient(135deg,#0ea5e9,#22d3ee);
+  color:var(--s0);font-size:1.2rem;font-weight:800;
+  border:none;
+  box-shadow:0 4px 20px rgba(56,189,248,.4);
+  animation:btnGlow 3s ease infinite;
+}
+.ckey-eq:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 8px 30px rgba(56,189,248,.6)}
+
+.ckey-clear{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
+.ckey-clear:hover{background:rgba(239,68,68,.25);border-color:#f87171;transform:translateY(-2px)}
+
+.ckey-del{background:rgba(251,146,60,.12);color:#fdba74;border:1px solid rgba(251,146,60,.2)}
+.ckey-del:hover{background:rgba(251,146,60,.22);border-color:#fb923c;transform:translateY(-2px)}
+
+.ckey-span2{grid-column:span 2}
+
+/* deg/rad toggle */
+.angle-display{
+  font-size:.7rem;color:rgba(56,189,248,.6);
+  letter-spacing:.08em;text-transform:uppercase;margin-top:.3rem;
+  text-align:right;
+}
+
+@media(max-width:500px){
+  .calc{padding:1.2rem}
+  .ckey{padding:.7rem .3rem;font-size:.78rem;border-radius:.65rem}
+  .ckey-fn{font-size:.68rem}
+  .calc-result{font-size:1.6rem}
+}
+
+/*──────────────────────────────────
   MOBILE NAV DRAWER
 ──────────────────────────────────*/
 .mobile-nav{
@@ -622,12 +746,13 @@ footer strong{color:var(--sky)}
 
 <!-- NAV -->
 <nav id="navbar">
-  <div class="logo"><div class="logo-dot"></div>Alex.Rivera</div>
+  <div class="logo"><div class="logo-dot"></div>Cristine.MB</div>
   <ul class="nav-links">
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#calculator">Calculator</a></li>
   </ul>
   <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hire Me ↗</button>
   <button class="hamburger" id="ham" aria-label="Menu">
@@ -639,6 +764,7 @@ footer strong{color:var(--sky)}
   <a href="#projects" onclick="closeMobile()">Projects</a>
   <a href="#about"    onclick="closeMobile()">About</a>
   <a href="#contact"  onclick="closeMobile()">Contact</a>
+  <a href="#calculator" onclick="closeMobile()">Calculator</a>
 </div>
 
 <div class="wrap">
@@ -646,11 +772,11 @@ footer strong{color:var(--sky)}
   <!-- HERO -->
   <section class="hero">
     <div class="hero-left">
-      <div class="hero-badge"><div class="badge-pulse"></div>IT Student · Davao City, PH</div>
+      <div class="hero-badge"><div class="badge-pulse"></div>IT Student · Sergio Osmeña, ZDN</div>
       <h1 class="hero-name">
         <span class="line"><span>Hello, I'm</span></span>
-        <span class="line"><span class="sky-text">Alex Rivera</span></span>
-        <span class="line"><span>Developer.</span></span>
+        <span class="line"><span class="sky-text">Cristine Meah</span></span>
+        <span class="line"><span>B. Bangculot</span></span>
       </h1>
       <p class="hero-role">Information Technology · Web & Software Development</p>
       <p class="hero-bio">
@@ -810,7 +936,7 @@ footer strong{color:var(--sky)}
       <div class="sec-label">Background</div>
       <h2 class="sec-title">About Me</h2>
       <div class="about-box">
-        <p class="about-text">I'm a 3rd-year BSIT student based in Davao City, Philippines. I'm passionate about creating clean, accessible web experiences and constantly expanding my technical toolkit. Currently seeking internship opportunities where I can apply my skills and grow further.</p>
+        <p class="about-text">I'm a 3rd-year BSIT student based in Sergio Osmeña, Zamboanga Del Norte. I'm passionate about creating clean, accessible web experiences and constantly expanding my technical toolkit. Currently seeking internship opportunities where I can apply my skills and grow further.</p>
         <div class="stat-grid">
           <div class="stat-item"><span class="stat-n">3+</span><div class="stat-l">Years Coding</div></div>
           <div class="stat-item"><span class="stat-n">12</span><div class="stat-l">Projects Done</div></div>
@@ -848,22 +974,85 @@ footer strong{color:var(--sky)}
     <div class="sec-label">Let's Talk</div>
     <h2 class="sec-title">Get In Touch</h2>
     <div class="contact-grid">
-      <a class="contact-card" href="mailto:alex@email.com">
+      <a class="contact-card" href="mailto:cristinemeahb@gmail.com">
         <div class="contact-ico">✉️</div>
-        <div><div class="contact-lbl">Email</div><div class="contact-val">alex@email.com</div></div>
+        <div><div class="contact-lbl">Email</div><div class="contact-val">cristinemeahb@gmail.com</div></div>
       </a>
       <a class="contact-card" href="#">
-        <div class="contact-ico">💼</div>
-        <div><div class="contact-lbl">LinkedIn</div><div class="contact-val">linkedin/alexrivera</div></div>
+        <div class="contact-ico">📸</div>
+        <div><div class="contact-lbl">Instagram</div><div class="contact-val">@crztn.meya</div></div>
       </a>
       <a class="contact-card" href="#">
         <div class="contact-ico">🐙</div>
-        <div><div class="contact-lbl">GitHub</div><div class="contact-val">github/alexrivera</div></div>
+        <div><div class="contact-lbl">GitHub</div><div class="contact-val">@meah88</div></div>
       </a>
       <a class="contact-card" href="#">
         <div class="contact-ico">📍</div>
-        <div><div class="contact-lbl">Location</div><div class="contact-val">Davao City, PH</div></div>
+        <div><div class="contact-lbl">Location</div><div class="contact-val">Sergio Osmeña, ZDN</div></div>
       </a>
+    </div>
+  </section>
+
+
+  <!-- CALCULATOR -->
+  <section class="calc-section" id="calculator">
+    <div class="sec-label">Built-In Tool</div>
+    <h2 class="sec-title">Scientific Calculator</h2>
+    <div class="calc-outer">
+      <div class="calc">
+        <div class="calc-display">
+          <div class="calc-expr" id="calcExpr"></div>
+          <div class="calc-result" id="calcResult">0</div>
+          <div class="angle-display" id="angleDisplay">DEG</div>
+        </div>
+        <div class="calc-mode">
+          <button class="mode-btn" id="modeBasic" onclick="setMode('basic')">Basic</button>
+          <button class="mode-btn active" id="modeSci" onclick="setMode('sci')">Scientific</button>
+        </div>
+        <div class="calc-grid sci-grid" id="sciGrid">
+          <button class="ckey ckey-fn" onclick="calcFn('sin')">sin</button>
+          <button class="ckey ckey-fn" onclick="calcFn('cos')">cos</button>
+          <button class="ckey ckey-fn" onclick="calcFn('tan')">tan</button>
+          <button class="ckey ckey-fn" onclick="calcFn('log')">log</button>
+          <button class="ckey ckey-fn" onclick="calcFn('ln')">ln</button>
+          <button class="ckey ckey-fn" onclick="calcFn('asin')">sin⁻¹</button>
+          <button class="ckey ckey-fn" onclick="calcFn('acos')">cos⁻¹</button>
+          <button class="ckey ckey-fn" onclick="calcFn('atan')">tan⁻¹</button>
+          <button class="ckey ckey-fn" onclick="calcFn('sqrt')">√</button>
+          <button class="ckey ckey-fn" onclick="calcFn('cbrt')">∛</button>
+          <button class="ckey ckey-fn" onclick="calcFn('sq')">x²</button>
+          <button class="ckey ckey-fn" onclick="calcFn('cube')">x³</button>
+          <button class="ckey ckey-fn" onclick="inputStr('^')">xʸ</button>
+          <button class="ckey ckey-fn" onclick="calcFn('fact')">n!</button>
+          <button class="ckey ckey-fn" onclick="toggleAngle()">DEG</button>
+          <button class="ckey ckey-fn" onclick="inputStr('(')">&#40;</button>
+          <button class="ckey ckey-fn" onclick="inputStr(')')">&#41;</button>
+          <button class="ckey ckey-fn" onclick="inputConst('π')">π</button>
+          <button class="ckey ckey-fn" onclick="inputConst('e')">e</button>
+          <button class="ckey ckey-fn" onclick="calcFn('inv')">1/x</button>
+        </div>
+        <div class="calc-grid basic-grid" style="margin-top:.55rem">
+          <button class="ckey ckey-clear" onclick="clearAll()">AC</button>
+          <button class="ckey ckey-del"   onclick="delChar()">⌫</button>
+          <button class="ckey ckey-op"    onclick="inputStr('%')">%</button>
+          <button class="ckey ckey-op"    onclick="inputStr('/')">÷</button>
+          <button class="ckey ckey-num" onclick="inputStr('7')">7</button>
+          <button class="ckey ckey-num" onclick="inputStr('8')">8</button>
+          <button class="ckey ckey-num" onclick="inputStr('9')">9</button>
+          <button class="ckey ckey-op"  onclick="inputStr('*')">×</button>
+          <button class="ckey ckey-num" onclick="inputStr('4')">4</button>
+          <button class="ckey ckey-num" onclick="inputStr('5')">5</button>
+          <button class="ckey ckey-num" onclick="inputStr('6')">6</button>
+          <button class="ckey ckey-op"  onclick="inputStr('-')">−</button>
+          <button class="ckey ckey-num" onclick="inputStr('1')">1</button>
+          <button class="ckey ckey-num" onclick="inputStr('2')">2</button>
+          <button class="ckey ckey-num" onclick="inputStr('3')">3</button>
+          <button class="ckey ckey-op"  onclick="inputStr('+')">+</button>
+          <button class="ckey ckey-num ckey-span2" onclick="inputStr('0')">0</button>
+          <button class="ckey ckey-num" onclick="inputStr('.')">.</button>
+          <button class="ckey ckey-eq"  onclick="calculate()">=</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -873,7 +1062,7 @@ footer strong{color:var(--sky)}
   Designed & Built with ♥ by <strong>Alex Rivera</strong> &nbsp;·&nbsp; IT Student Portfolio 2026
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ── */
 const cur=document.getElementById('cur'),curR=document.getElementById('curR');
 let mx=0,my=0,rx=0,ry=0;
@@ -915,18 +1104,10 @@ const io=new IntersectionObserver(entries=>{
 fills.forEach(f=>io.observe(f));
 
 /* ── SCROLL REVEAL ── */
-const sections=document.querySelectorAll('.skills-section,.projects-section,.about-section,.contact-section');
+const sections=document.querySelectorAll('.skills-section,.projects-section,.about-section,.contact-section,.calc-section');
 const sr=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='none'}})},{threshold:.1});
 sections.forEach(s=>{s.style.opacity='0';s.style.transition='opacity .8s ease, transform .8s ease';sr.observe(s)});
 
 /* ── MOBILE NAV ── */
 document.getElementById('ham').addEventListener('click',()=>document.getElementById('mobileNav').classList.toggle('open'));
-function closeMobile(){document.getElementById('mobileNav').classList.remove('open')}
-
-/* ── NAV SCROLL STYLE ── */
-window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').style.background=window.scrollY>40?'rgba(10,22,40,.92)':'rgba(10,22,40,.75)';
-});
-</script>
-</body>
-</html>
+function closeMobile(){document.getElementById('mobileNav').classList.remo
